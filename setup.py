@@ -1,3 +1,12 @@
+# -*- coding: utf-8 -*-
+"""
+    setup.py
+
+    This file contain the setup for the payroll module
+
+    :copyright: (c) 2013 by Openlabs Technologies & Consulting (P) Limited
+    :license: BSD, see LICENSE for more details.
+"""
 from setuptools import setup
 import re
 import os
@@ -28,7 +37,7 @@ requires.append('trytond >= %s.%s, < %s.%s' %
 
 setup(name='trytond_payroll',
     version=info.get('version', '0.0.1'),
-    description='Tryton module with payroll',
+    description='Tryton payroll module',
     long_description=read('README'),
     author='Openlabs',
     url='http://www.openlabs.co.in/',
@@ -43,7 +52,7 @@ setup(name='trytond_payroll',
             + ['tryton.cfg',],
         },
     classifiers=[
-        'Development Status :: 5 - Production/Stable',
+        'Development Status :: 5 - Production/Beta',
         'Environment :: Plugins',
         'Framework :: Tryton',
         'Intended Audience :: Developers',
