@@ -14,9 +14,9 @@ __metaclass__ = PoolMeta
 
 class Employee():
     __name__ = 'company.employee'
-    _inherits = {'party.party': 'party'}
+    #_inherits = {'party.party': 'party'}
 
-    basic_salary = fields.Numeric('Salary')
-    hra = fields.Numeric('House Rent Allowance')
-    da = fields.Numeric('Daily Allowance')
+    basic_salary = fields.Numeric('Salary', required=True)
+    hra = fields.Numeric('House Rent Allowance', required=True)
+    da = fields.Numeric('Daily Allowance', required=True)
 
