@@ -21,15 +21,16 @@
             <field name="type">tree</field>
             <field name="arch" type="xml">
                 <![CDATA[
-                <form string="Attendance">
+                <tree string="Attendance">
                     <field name="employee"/>
+                    <field name="date"/>
                     <field name="type"/>
-                </form>
+                </tree>
                 ]]>
             </field>
         </record>
         <record model="ir.action.act_window" id="act_attendance_form">
-            <field name="name">Employee</field>
+            <field name="name">Attendance</field>
             <field name="res_model">attendance.attendance</field>
         </record>
         <record model="ir.action.act_window.view"
@@ -42,7 +43,7 @@
           id="act_attendance_form_view2">
             <field name="sequence" eval="20"/>
             <field name="view" ref="attendance_view_form"/>
-            <field name="act_window" ref="attendance_country_form"/>
+            <field name="act_window" ref="act_attendance_form"/>
         </record>
         <menuitem parent="ir.menu_administration" action="act_attendance_form"
             id="menu_attendance_form"/>
