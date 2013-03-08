@@ -1,0 +1,51 @@
+<?xml version="1.0"?>
+<!-- This file contain the view of attendance model -->
+<tryton>
+    <data>
+        <record model="ir.ui.view" id="attendance_view_form">
+            <field name="model">payroll.attendance</field>
+            <field name="type">form</field>
+            <field name="arch" type="xml">
+                <![CDATA[
+                <form string="Attendance">
+                    <label name="employee"/>
+                    <field name="employee"/>
+                    <label name="type"/>
+                    <field name="type"/>
+                </form>
+                ]]>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="attendance_view_tree">
+            <field name="model">payroll.attendance</field>
+            <field name="type">tree</field>
+            <field name="arch" type="xml">
+                <![CDATA[
+                <tree string="Attendance">
+                    <field name="employee"/>
+                    <field name="date"/>
+                    <field name="type"/>
+                </tree>
+                ]]>
+            </field>
+        </record>
+        <record model="ir.action.act_window" id="act_attendance_form">
+            <field name="name">Attendance</field>
+            <field name="res_model">payroll.attendance</field>
+        </record>
+        <record model="ir.action.act_window.view"
+          id="act_attendance_form_view1">
+            <field name="sequence" eval="10"/>
+            <field name="view" ref="attendance_view_tree"/>
+            <field name="act_window" ref="act_attendance_form"/>
+        </record>
+        <record model="ir.action.act_window.view" 
+          id="act_attendance_form_view2">
+            <field name="sequence" eval="20"/>
+            <field name="view" ref="attendance_view_form"/>
+            <field name="act_window" ref="act_attendance_form"/>
+        </record>
+        <menuitem parent="ir.menu_administration" action="act_attendance_form"
+            id="menu_attendance_form"/>
+        </data>
+</tryton>
