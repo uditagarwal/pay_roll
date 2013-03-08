@@ -1,0 +1,4 @@
+trytond_party >= 2.6, < 2.7
+trytond_company >= 2.6, < 2.7
+trytond_account >= 2.6, < 2.7
+trytond >= 2.6, < 2.7

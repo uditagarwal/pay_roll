@@ -1,0 +1,4 @@
+
+    [trytond.modules]
+    payroll = trytond.modules.payroll
+    

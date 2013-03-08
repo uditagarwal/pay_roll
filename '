@@ -1,0 +1,35 @@
+<?xml version="1.0"?>
+<tryton>
+    <data>
+          <record model="ir.ui.view" id="payroll_view_form">
+                 <field name="model">payroll.payroll</field>
+                 <field name="type">form</field>
+                 <field name="arch" type="xml">
+                 <![CDATA[
+                 <form string="Payroll Record">
+                 <label name="employees" />
+                 <field name="employees" />
+                 <label name="fiscalyear" />
+                 <field name="fiscalyear" />
+                 <label name="salary" />
+                 <field name="salary" />
+                 <label name="dayspresent" />
+                 <field name="dayspresent" />
+                 <label name="period" />
+                 <field name="period" />
+                 </form>
+                 ]]>
+                 </field>
+         </record>
+        <record model="ir.action.act_window" id="act_payroll_form">
+          <field name="name">Payroll</field>
+          <field name="res_model">payroll.payroll</field>
+        </record>
+        <record model="ir.action.act_window.view" id="act_payroll_form_view">
+            <field name="sequence" eval="10" />
+            <field name="view" ref="payroll_view_form" />
+            <field name="act_window" ref="act_payroll_form">
+        </record>
+        <menuitem parent="ir.menu_administration" action="act_payroll_form" id="payroll_form" sequence="2"/>       
+    </data>
+</tryton>

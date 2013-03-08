@@ -1,0 +1,13 @@
+README
+setup.py
+./__init__.py
+./attendance.py
+./employee.py
+./payroll.py
+trytond_payroll.egg-info/PKG-INFO
+trytond_payroll.egg-info/SOURCES.txt
+trytond_payroll.egg-info/dependency_links.txt
+trytond_payroll.egg-info/entry_points.txt
+trytond_payroll.egg-info/not-zip-safe
+trytond_payroll.egg-info/requires.txt
+trytond_payroll.egg-info/top_level.txt

@@ -1,0 +1,7 @@
+from trytond.pool import Pool
+from Payroll import *
+
+def register():
+    Pool.register(
+        Payroll,
+        module='payroll', type_='model')

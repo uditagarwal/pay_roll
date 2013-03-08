@@ -1,0 +1,50 @@
+# -*- coding: utf-8 -*-
+"""
+    Payroll Record
+
+    Description goes here...
+
+    :copyright: (c) 2013 by Openlabs Technologies & Consulting (P) Limited
+    :license: BSD, see LICENSE for more details.
+
+"""
+from trytond.model import ModelView, ModelSQL, fields
+
+__all__ = ['Payroll']
+
+class Payroll(ModelSQL, ModelView):
+    'Payroll'
+    __name__ = 'payroll.payroll'
+    employees = fields.Many2One('company.employee', 'employee','Employee')
+    fiscalyear = fields.Many2One('account.fiscalyear','Fiscal Year',
+    required = True,on_change=['fiscalyear'])
+    salary = fields.Numeric('Salary',required='True')
+    dayspresent = fields.Integer('Present',required='True')
+    period = fields.Many2One('account.period','Period',required=True,
+    on_change=['period'])
+
+
+class PrintPayroll(ModelSQL, ModelView):
+    'Print Payroll'
+    __name__='payroll.printpayroll'
+    fiscalyear = fields.Many2One('account.fiscalyear','Fiscal Year',
+    required=True, on_change=['fiscalyear'])
+    start_period = fields.Many2One('account.period','Start Period',
+    domain = [('fiscalyear', '=', Eval('fiscalyear')),('start_date','<=',
+    (Eval('end_period'),'start_date')),],depends=['fiscalyear','end_period'])
+    end_period = fields.Many2One('account.period', 'End Period', domain=[
+    ('fiscalyear', '=', Eval('fiscalyear')),('start_date', '>=',
+    (Eval('start_period'), 'start_date'))],
+    depends=['fiscalyear','start_period'])
+
+    @staticmethod
+    def default_fiscalyear():
+        FiscalYear = Pool().get('account.fiscalyear')
+        return FiscalYear.find(
+            Transaction().context.get('company'), exception=False)
+
+    def default_company():
+        return Transaction().context.get('company')
+
+
+
