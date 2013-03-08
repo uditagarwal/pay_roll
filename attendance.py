@@ -18,7 +18,7 @@ __all__ = ['Attendance']
 
 class Attendance(ModelSQL, ModelView):
     'Attendance'
-    __name__ = 'attendance.attendance'
+    __name__ = 'payroll.attendance'
 
     employee = fields.Many2One('company.employee', 'Employee', required=True,
         domain=[('company', '=', Eval('company'))])
@@ -33,7 +33,7 @@ class Attendance(ModelSQL, ModelView):
 
     @staticmethod
     def default_date():
-        return datetime.now()
+        return  datetime.date(datetime.utcnow())
 
     def get_company():
         return Transaction().context.get('company')
