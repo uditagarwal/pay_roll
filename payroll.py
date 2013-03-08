@@ -10,6 +10,7 @@
 """
 from trytond.model import ModelView, ModelSQL, fields
 from trytond.pyson import Eval
+from trytond.pool import Pool
 from datetime import datetime
 
 __all__ = ['Payroll']
@@ -17,69 +18,54 @@ __all__ = ['Payroll']
 class Payroll(ModelSQL, ModelView):
     'Payroll'
     __name__ = 'payroll.payroll'
-    employees = fields.Many2One('company.employee', 'employee', 'Employee')
-    fiscalyear = fields.Many2One('account.fiscalyear', 'Fiscal Year',
-    required = True,on_change=['fiscalyear'])
-    salary = fields.Function(fields.Numeric('Salary'), 'get_salary1')
-    dayspresent = fields.Function(fields.Numeric('Present'), 'get_days_present')
-    period = fields.Many2One('account.period', 'Period', required=True,
-    on_change=['period'])
-    
-    def days_between(d1,d2):
-        d1 = datetime.strptime(d1, "%Y-%m-%d")
-        d2 = datetime.strptime(d2, "%Y-%m-%d")
-        return abs((d2-d1).days)
-
+    employees = fields.Many2One(
+        'company.employee', 'employee', 'Employee', required=True
+    )
+    fiscal_year = fields.Many2One(
+        'account.fiscalyear', 'Fiscal Year',required=True
+    )
+    salary = fields.Function(
+        fields.Numeric('Salary'), 'get_salary'
+    )
+    days_present = fields.Function(fields.Integer('Present'), 'get_days_present')
+    period = fields.Many2One(
+        'account.period', 'Period', domain=[
+            ('fiscalyear','=', Eval('fiscal_year'))
+        ], depends=['fiscal_year'], required=True
+    )
+            
     def get_days_present(self,name):
         Attendance = Pool().get('payroll.attendance')
-        attendances = Attendance.Search([
-            ('employee', '=', self.employee.id),
-            ('type', '=', 'full day')
+
+        return Attendance.search([
+            ('employee', '=', self.employees.id),
+            ('type', '=', 'full day'),
+            ('date', '>=', self.period.start_date),
+            ('date', '<=', self.period.end_date),
+        ], count=True)
+
+    def get_salary(self, name):
+        """
+        Return salary for the employee and period in this record
+        """
+        Employee = Pool().get('company.employee')
+        Period  = Pool().get('account.period')
+
+        # TODO: Create a function field in employee which returns the monthly
+        # salary
+        monthly_salary = sum([
+            self.employees.basic_salary, self.employees.hra, self.employees.da
         ])
-        days_present = len(attendances)
-        return days_present
- 
-    def get_salary(self,name):
-        Salary = Pool().get('company.employee')
-        salary = Salary.Search([
-            ('employee','=',self.employee.id)])
-        monthsalary = Salary[0].basic_salary + Salary[0].hra + Salary[0].da
-        Period  = Poo().get('account.period')
-        period = Period.search([
-            ('period','=',self.period.id)])
-        start_date =  period[0].start_date
-        end_date = period[0].end_date
-        difference = days_between(start_date,end_date)
-        salaryperday = int(monthsalary)/int(difference)
-        return salaryperday
 
-    def get_salary1(self,name):
-        spd = get_salary(self,name)
-        att = get_days_present(self,name)
-        return int(spd*att)
+        salary_per_day = monthly_salary / \
+            abs((self.period.end_date - self.period.start_date)).days
+        return salary_per_day * self.days_present
 
-
-class PrintPayroll(ModelSQL, ModelView):
-    'Print Payroll'
-    __name__='payroll.printpayroll'
-    fiscalyear = fields.Many2One('account.fiscalyear', 'Fiscal Year',
-     required=True, on_change=['fiscalyear'])
-    start_period = fields.Many2One('account.period','Start Period',
-    domain = [('fiscalyear', '=', Eval('fiscalyear')),('start_date','<=',
-    (Eval('end_period'),'start_date')),],depends=['fiscalyear','end_period'])
-    end_period = fields.Many2One('account.period', 'End Period', domain=[
-    ('fiscalyear', '=', Eval('fiscalyear')),('start_date', '>=',
-    (Eval('start_period'), 'start_date'))],
-    depends=['fiscalyear','start_period'])
-
-    @staticmethod
-    def default_fiscalyear():
-        FiscalYear = Pool().get('account.fiscalyear')
-        return FiscalYear.find(
-            Transaction().context.get('company'), exception=False)
-
-    def default_company():
-        return Transaction().context.get('company')
-
-
+    @classmethod
+    def __setup__(cls):
+        super(Payroll, cls).__setup__()
+        cls._sql_constraints += [
+            ('salary_uniq', 'UNIQUE(employees, period)',
+                'Salary already given!'),
+            ]
 
