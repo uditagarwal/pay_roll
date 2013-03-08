@@ -1,0 +1,47 @@
+<?xml version="1.0"?>
+<!-- This file contains the view in Employees model for the Salary -->
+<tryton>
+    <data>
+        <record model="ir.ui.view" id="employee_sal_form">
+            <field name="model">company.employee</field>
+            <field name="type">form</field>
+            <field name="inherit" ref="company.employee_view_form2"/>
+            <field name="arch" type="xml">
+                <![CDATA[
+                <data>
+                    <xpath
+                        expr="/form/field[@name=&quot;company&quot;]"
+                        position="after">
+                        <label name="basic_salary"/>
+                        <field name="basic_salary"/>
+                        <newline/>
+                        <label name="hra"/>
+                        <field name="hra"/>
+                        <newline/>
+                        <label name="da"/>
+                        <field name="da"/>
+                    </xpath>
+                </data>
+                ]]>
+            </field>
+        </record>
+        <record model="ir.ui.view" id="employee_sal_tree">
+            <field name="model">company.employee</field>
+            <field name="type">tree</field>
+            <field name="inherit" ref="company.employee_view_tree"/>
+            <field name="arch" type="xml">
+                <![CDATA[
+                <data>
+                    <xpath
+                        expr="/tree/field[@name=&quot;name&quot;]"
+                        position="after">
+                        <field name="basic_salary"/>
+                        <field name="hra"/>
+                        <field name="da"/>
+                    </xpath>
+                </data>
+                ]]>
+            </field>
+        </record>
+    </data>
+</tryton>
