@@ -13,6 +13,5 @@ from .employee import *
 from .attendance import *
 
 def register():
-    Pool.register(
-        Attendance,
-        module='payroll', type_='model')
+    Pool.register(        
+        )
