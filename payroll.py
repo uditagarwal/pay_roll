@@ -36,7 +36,11 @@ class Payroll(ModelSQL, ModelView):
         ], depends=['fiscal_year'], required=True
     )
 
-    def get_days_present(self, name):
+    def get_days_present(self):
+        """
+        Return number of days present for the employee
+        """
+
         Attendance = Pool().get('payroll.attendance')
 
         return Attendance.search([
@@ -46,7 +50,7 @@ class Payroll(ModelSQL, ModelView):
             ('date', '<=', self.period.end_date),
         ], count=True)
 
-    def get_salary(self, name):
+    def get_salary(self):
         """
         Return salary for the employee and period in this record
         """
