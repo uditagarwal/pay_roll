@@ -36,7 +36,7 @@ class Payroll(ModelSQL, ModelView):
         ], depends=['fiscal_year'], required=True
     )
 
-    def get_days_present(self):
+    def get_days_present(self,name):
         """
         Return number of days present for the employee
         """
@@ -50,12 +50,12 @@ class Payroll(ModelSQL, ModelView):
             ('date', '<=', self.period.end_date),
         ], count=True)
 
-    def get_salary(self):
+    def get_salary(self,name):
         """
         Return salary for the employee and period in this record
         """
 
-        monthly_salary = self.employees.total_sal  
+        monthly_salary = self.employees.total_sal
 
         salary_per_day = monthly_salary / \
             abs((self.period.end_date - self.period.start_date)).days
