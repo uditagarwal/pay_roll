@@ -13,6 +13,7 @@ from .payroll import *
 from .employee import *
 from .attendance import *
 
+
 def register():
     Pool.register(
         Payroll,
