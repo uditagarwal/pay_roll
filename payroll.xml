@@ -15,6 +15,8 @@
                  <field name="salary" />
                  <label name="days_present" />
                  <field name="days_present" />
+                 <label name="incentive" />
+                 <field name="incentive" />
                  <label name="period" />
                  <field name="period" />
                  </form>
@@ -30,6 +32,7 @@
                    <field name="employees" />
                    <field name="fiscal_year" />
                    <field name="salary" />
+                   <field name="incentive" />
                    <field name="days_present" />
                    <field name="period" />
                    </tree>
