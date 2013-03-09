@@ -40,6 +40,9 @@ class Payroll(ModelSQL, ModelView):
     )
 
     def get_days_present(self, name):
+        """
+        Return number of days present for employee
+        """
         Attendance = Pool().get('payroll.attendance')
 
         return Attendance.search([
@@ -64,8 +67,6 @@ class Payroll(ModelSQL, ModelView):
         '''
         calculates incentive for those employee whose attendance greater than
         95%'''
-        #Employee = Pool().get('company.employee')
-        Period  = Pool().get('account.period')
 
         attendance_percent = (self.days_present / \
          (abs(
