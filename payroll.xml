@@ -41,12 +41,12 @@
             <field name="res_model">payroll.payroll</field>
         </record>
         <record model="ir.action.act_window.view" id="act_payroll_form_view1">
-            <field name="sequence" eval="10" />
+            <field name="sequence" eval="20" />
             <field name="view" ref="payroll_view_form" />
             <field name="act_window" ref="act_payroll_form" />
         </record>
         <record model="ir.action.act_window.view" id="act_payroll_form_view2">
-            <field name="sequence" eval="20" />
+            <field name="sequence" eval="10" />
             <field name="view" ref="payroll_view_tree" />
             <field name="act_window" ref="act_payroll_form" />
         </record>
