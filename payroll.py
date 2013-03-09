@@ -35,12 +35,11 @@ class Payroll(ModelSQL, ModelView):
             ('fiscalyear', '=', Eval('fiscal_year'))
         ], depends=['fiscal_year'], required=True
     )
+    incentive = fields.Function(
+    fields.Numeric('Incentive'), 'get_incentive'
+    )
 
-    def get_days_present(self,name):
-        """
-        Return number of days present for the employee
-        """
-
+    def get_days_present(self, name):
         Attendance = Pool().get('payroll.attendance')
 
         return Attendance.search([
@@ -50,16 +49,34 @@ class Payroll(ModelSQL, ModelView):
             ('date', '<=', self.period.end_date),
         ], count=True)
 
-    def get_salary(self,name):
+    def get_salary(self, name):
         """
         Return salary for the employee and period in this record
         """
 
-        monthly_salary = self.employees.total_sal
+        monthly_salary = self.employees.total_sal  
 
         salary_per_day = monthly_salary / \
             abs((self.period.end_date - self.period.start_date)).days
         return salary_per_day * self.days_present
+
+    def get_incentive(self, name):
+        '''
+        calculates incentive for those employee whose attendance greater than
+        95%'''
+        #Employee = Pool().get('company.employee')
+        Period  = Pool().get('account.period')
+
+        attendance_percent = (self.days_present / \
+         (abs(
+            (self.period.end_date - self.period.start_date)).days))*100
+
+        if attendance_percent >= 95:
+            e_incentive =  1000
+        else:
+            e_incentive = 0
+
+        return e_incentive
 
     @classmethod
     def __setup__(cls):
@@ -68,3 +85,4 @@ class Payroll(ModelSQL, ModelView):
             ('salary_uniq', 'UNIQUE(employees, period)',
                 'Salary already given!'),
         ]
+
