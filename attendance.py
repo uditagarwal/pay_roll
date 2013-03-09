@@ -20,22 +20,34 @@ class Attendance(ModelSQL, ModelView):
     'Attendance'
     __name__ = 'payroll.attendance'
 
-    employee = fields.Many2One('company.employee', 'Employee', required=True,
-        domain=[('company', '=', Eval('company'))])
+    employee = fields.Many2One(
+        'company.employee',
+        'Employee',
+        required=True,
+        domain=[('company', '=', Eval('company'))],
+    )
     date = fields.Date('Date')
-    company = fields.Function(fields.Many2One('company.company', 'Company'),
-        'get_company')
+    company = fields.Function(
+        fields.Many2One('company.company', 'Company'),
+        'get_company'
+    )
     type = fields.Selection([
         ('full day', 'Full Day'),
         ('half day', 'Half Day'),
         ('absent', 'Absent'),
-    ], 'Type', required = True)
+    ], 'Type', required=True)
 
     @staticmethod
     def default_date():
-        return  datetime.date(datetime.utcnow())
+        """Return today date in utc
+
+        """
+        return datetime.date(datetime.utcnow())
 
     def get_company():
+        """Return currently logged-in company
+
+        """
         return Transaction().context.get('company')
 
     @classmethod
@@ -44,4 +56,4 @@ class Attendance(ModelSQL, ModelView):
         cls._sql_constraints += [
             ('attendance_uniq', 'UNIQUE(employee, date)',
                 'Attendance already marked!'),
-            ]
+        ]
