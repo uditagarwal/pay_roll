@@ -20,6 +20,8 @@
                         <newline/>
                         <label name="da"/>
                         <field name="da"/>
+                        <label name="total_sal"/>
+                        <field name="total_sal"/>
                     </xpath>
                 </data>
                 ]]>
@@ -38,6 +40,7 @@
                         <field name="basic_salary"/>
                         <field name="hra"/>
                         <field name="da"/>
+                        <field name="total_sal"/>
                     </xpath>
                 </data>
                 ]]>

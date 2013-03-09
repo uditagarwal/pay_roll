@@ -7,6 +7,7 @@
 """
 from trytond.pool import PoolMeta
 from trytond.model import fields
+from trytond.pool import Pool
 
 __all__ = ['Employee']
 __metaclass__ = PoolMeta
@@ -21,6 +22,11 @@ class Employee():
     basic_salary = fields.Numeric('Salary', required=True)
     hra = fields.Numeric('House Rent Allowance', required=True)
     da = fields.Numeric('Daily Allowance', required=True)
+    total_sal = fields.Function(fields.Numeric('Inhand Salary'), 'get_salary')
+
+    def get_salary(self,name):
+        Employee = Pool().get('company.employee')
+        return sum([self.basic_salary, self.hra, self.da])
 
     @classmethod
     def __setup__(cls):
@@ -30,8 +36,9 @@ class Employee():
             ('check_da', 'da_not_valid'),
             ]
         cls._error_messages.update({
-                'hra_not_valid': 'Invalid Values',
-                'da_not_valid': 'Not Valid',
+                'hra_not_valid': 'HRA should be less than your salary.',
+                'da_not_valid': 'Your Daily Allowance seems greater than \
+                your salary. Please enter the correct value.',
                 })
 
     def check_hra(self):
