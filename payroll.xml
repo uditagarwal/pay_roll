@@ -50,6 +50,6 @@
             <field name="view" ref="payroll_view_tree" />
             <field name="act_window" ref="act_payroll_form" />
         </record>
-        <menuitem parent="ir.menu_administration" action="act_payroll_form" id="payroll_form" sequence="2"/>
+        <menuitem parent="payroll.menu_payroll" action="act_payroll_form" id="payroll_form" sequence="2"/>
     </data>
 </tryton>

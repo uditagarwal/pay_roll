@@ -11,7 +11,6 @@
 from trytond.model import ModelView, ModelSQL, fields
 from trytond.pyson import Eval
 from trytond.pool import Pool
-from datetime import datetime
 
 __all__ = ['Payroll']
 
@@ -33,7 +32,7 @@ class Payroll(ModelSQL, ModelView):
             ('fiscalyear','=', Eval('fiscal_year'))
         ], depends=['fiscal_year'], required=True
     )
-            
+
     def get_days_present(self,name):
         Attendance = Pool().get('payroll.attendance')
 
@@ -51,7 +50,7 @@ class Payroll(ModelSQL, ModelView):
         Employee = Pool().get('company.employee')
         Period  = Pool().get('account.period')
 
-        # TODO: Create a function field in employee which returns the monthly
+        # Create a function field in employee which returns the monthly
         # salary
         monthly_salary = sum([
             self.employees.basic_salary, self.employees.hra, self.employees.da
@@ -68,4 +67,3 @@ class Payroll(ModelSQL, ModelView):
             ('salary_uniq', 'UNIQUE(employees, period)',
                 'Salary already given!'),
             ]
-

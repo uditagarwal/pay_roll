@@ -45,7 +45,9 @@
             <field name="view" ref="attendance_view_form"/>
             <field name="act_window" ref="act_attendance_form"/>
         </record>
-        <menuitem parent="ir.menu_administration" action="act_attendance_form"
-            id="menu_attendance_form"/>
+        <menuitem name="Payroll" sequence="0" id="menu_payroll"
+          icon="tryton-party"/>
+        <menuitem parent="menu_payroll" name="Attendance" 
+          action="act_attendance_form" id="menu_attendance_form"/>
         </data>
 </tryton>
