@@ -1,0 +1,55 @@
+<?xml version="1.0"?>
+<tryton>
+    <data>
+          <record model="ir.ui.view" id="payroll_view_form">
+                 <field name="model">payroll.payroll</field>
+                 <field name="type">form</field>
+                 <field name="arch" type="xml">
+                 <![CDATA[
+                 <form string="Payroll Record">
+                 <label name="employees" />
+                 <field name="employees" />
+                 <label name="fiscal_year" />
+                 <field name="fiscal_year" />
+                 <label name="salary" />
+                 <field name="salary" />
+                 <label name="days_present" />
+                 <field name="days_present" />
+                 <label name="period" />
+                 <field name="period" />
+                 </form>
+                 ]]>
+                 </field>
+         </record>
+         <record model="ir.ui.view" id="payroll_view_tree">
+             <field name="model">payroll.payroll</field>
+             <field name="type">tree</field>
+             <field name="arch" type="xml">
+                <![CDATA[
+                   <tree string="Payrolls">
+                   <field name="employees" />
+                   <field name="fiscal_year" />
+                   <field name="salary" />
+                   <field name="days_present" />
+                   <field name="period" />
+                   </tree>
+               ]]>
+            </field>
+        </record>
+        <record model="ir.action.act_window" id="act_payroll_form">
+            <field name="name">Payroll</field>
+            <field name="res_model">payroll.payroll</field>
+        </record>
+        <record model="ir.action.act_window.view" id="act_payroll_form_view1">
+            <field name="sequence" eval="10" />
+            <field name="view" ref="payroll_view_form" />
+            <field name="act_window" ref="act_payroll_form" />
+        </record>
+        <record model="ir.action.act_window.view" id="act_payroll_form_view2">
+            <field name="sequence" eval="20" />
+            <field name="view" ref="payroll_view_tree" />
+            <field name="act_window" ref="act_payroll_form" />
+        </record>
+        <menuitem parent="payroll.menu_payroll" action="act_payroll_form" id="payroll_form" sequence="2"/>
+    </data>
+</tryton>

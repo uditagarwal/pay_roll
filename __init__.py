@@ -1,4 +1,4 @@
-# -*- coding: utf-8 -*-
+#-*- coding: utf-8 -*-
 """
     __init__.py
 
@@ -16,8 +16,8 @@ from .attendance import *
 
 def register():
     Pool.register(
-        Payroll
-        Attendance,
+        Payroll,
+	Attendance,
         module='payroll', type_='model')
 
     Pool.register(

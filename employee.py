@@ -22,6 +22,7 @@ class Employee():
     basic_salary = fields.Numeric('Salary', required=True)
     hra = fields.Numeric('House Rent Allowance', required=True)
     da = fields.Numeric('Daily Allowance', required=True)
+<<<<<<< HEAD
     total_sal = fields.Function(fields.Numeric('Inhand Salary'), 'get_salary')
 
     def get_salary(self,name):
@@ -53,3 +54,5 @@ class Employee():
         Checks if da is greater than basic salary and hra
         """
         return self.basic_salary > self.da and self.da < 3000
+=======
+>>>>>>> 0343c6d59e60caf0405f3bb79780df63b8f622cc
